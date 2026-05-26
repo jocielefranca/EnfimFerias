@@ -1,0 +1,404 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .container {
+    min-height: 700px;
+    padding: 2.5rem 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #003366 0%, #004d99 40%, #0066cc 70%, #1a7abf 100%);
+    border-radius: 20px;
+  }
+
+  .stars-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .header-section {
+    text-align: center;
+    z-index: 2;
+  }
+
+  .princess-badge {
+    display: inline-block;
+    background: #f8a4c8;
+    color: #7a0033;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 20px;
+    border-radius: 24px;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.65rem;
+    text-transform: uppercase;
+    box-shadow: 0 2px 12px rgba(248,164,200,0.4);
+  }
+
+  .main-title {
+    font-size: 34px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    font-size: 17px;
+    color: #b8daff;
+    margin-top: 0.45rem;
+    font-style: italic;
+  }
+
+  .destination-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 7px 20px;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.3);
+    z-index: 2;
+    backdrop-filter: blur(4px);
+  }
+
+  .countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 520px;
+    z-index: 2;
+  }
+
+  .count-card {
+    background: rgba(255,255,255,0.13);
+    border-radius: 18px;
+    padding: 1.2rem 0.5rem 1rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.25);
+    backdrop-filter: blur(6px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .count-card::before {
+    content: '';
+    display: block;
+    height: 5px;
+    border-radius: 3px;
+    margin-bottom: 0.85rem;
+  }
+
+  .count-card.dias::before  { background: #f875b4; }
+  .count-card.horas::before { background: #7de0a8; }
+  .count-card.mins::before  { background: #ffd966; }
+  .count-card.segs::before  { background: #b39ddb; }
+
+  .count-number {
+    font-size: 50px;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+
+  .count-card.dias  .count-number { color: #ffd0e8; }
+  .count-card.horas .count-number { color: #b3f5d4; }
+  .count-card.mins  .count-number { color: #fff0a0; }
+  .count-card.segs  .count-number { color: #d7c8f5; }
+
+  .count-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.7);
+    margin-top: 6px;
+  }
+
+  .beach-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .beach-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255,255,255,0.12);
+    padding: 6px 14px;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.22);
+  }
+
+  .date-line {
+    text-align: center;
+    z-index: 2;
+  }
+
+  .date-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    margin-bottom: 3px;
+  }
+
+  .date-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* Frase rodízio */
+  .phrase-box {
+    z-index: 2;
+    max-width: 460px;
+    width: 100%;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 18px;
+    padding: 1.2rem 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(6px);
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .phrase-emoji {
+    font-size: 28px;
+    line-height: 1;
+    transition: opacity 0.6s;
+  }
+
+  .phrase-text {
+    font-size: 16px;
+    font-style: italic;
+    color: #fff;
+    line-height: 1.5;
+    font-weight: 500;
+    transition: opacity 0.6s;
+  }
+
+  .phrase-box.fade { opacity: 0; transition: opacity 0.5s; }
+  .phrase-box.show { opacity: 1; transition: opacity 0.5s; }
+
+  /* Corações flutuantes */
+  .heart {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    font-size: 28px;
+    animation: floatHeart linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes floatHeart {
+    0%   { transform: translateY(0px) scale(1) rotate(-8deg); opacity: 0; }
+    10%  { opacity: 0.7; }
+    80%  { opacity: 0.6; }
+    100% { transform: translateY(-320px) scale(1.3) rotate(12deg); opacity: 0; }
+  }
+
+  /* ondas */
+  .waves-svg {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    pointer-events: none;
+    z-index: 1;
+    width: 100%;
+  }
+</style>
+
+<div class="container" id="main">
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Contador regressivo férias Maragogi Ana Clara</h2>
+
+  <!-- estrelinhas de fundo -->
+  <svg class="stars-bg" viewBox="0 0 680 700" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="60"  cy="50"  r="1.5" fill="white" opacity="0.35"/>
+    <circle cx="200" cy="30"  r="1"   fill="white" opacity="0.28"/>
+    <circle cx="350" cy="60"  r="2"   fill="white" opacity="0.4"/>
+    <circle cx="500" cy="25"  r="1.2" fill="white" opacity="0.3"/>
+    <circle cx="620" cy="55"  r="1.8" fill="white" opacity="0.35"/>
+    <circle cx="140" cy="140" r="1"   fill="white" opacity="0.2"/>
+    <circle cx="440" cy="120" r="1.5" fill="white" opacity="0.25"/>
+    <circle cx="580" cy="170" r="1"   fill="white" opacity="0.22"/>
+    <circle cx="90"  cy="200" r="1.2" fill="white" opacity="0.2"/>
+    <circle cx="310" cy="180" r="1"   fill="white" opacity="0.18"/>
+    <circle cx="650" cy="230" r="1.5" fill="white" opacity="0.3"/>
+    <circle cx="30"  cy="300" r="1"   fill="white" opacity="0.18"/>
+    <circle cx="660" cy="350" r="1.2" fill="white" opacity="0.22"/>
+    <circle cx="410" cy="280" r="1"   fill="white" opacity="0.2"/>
+    <circle cx="130" cy="380" r="1.5" fill="white" opacity="0.18"/>
+  </svg>
+
+  <!-- corações gerados por JS -->
+  <div id="hearts-container" style="position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;"></div>
+
+  <div class="header-section">
+    <div class="princess-badge">✨ Princesa Amora — Ana Clara ✨</div>
+    <div class="main-title">Férias de Mãe e Filha</div>
+    <div class="subtitle">Maragogi nos espera, amor! 🌊</div>
+  </div>
+
+  <div class="destination-tag">
+    🏖️ &nbsp;Maragogi · Alagoas · Julho 2026
+  </div>
+
+  <div class="countdown-grid">
+    <div class="count-card dias">
+      <div class="count-number" id="dias">--</div>
+      <div class="count-label">dias</div>
+    </div>
+    <div class="count-card horas">
+      <div class="count-number" id="horas">--</div>
+      <div class="count-label">horas</div>
+    </div>
+    <div class="count-card mins">
+      <div class="count-number" id="mins">--</div>
+      <div class="count-label">minutos</div>
+    </div>
+    <div class="count-card segs">
+      <div class="count-number" id="segs">--</div>
+      <div class="count-label">segundos</div>
+    </div>
+  </div>
+
+  <div class="beach-row">
+    <div class="beach-item">🌊 Praia</div>
+    <div class="beach-item">👗 Looks prontos</div>
+    <div class="beach-item">🌴 1ª viagem</div>
+    <div class="beach-item">💕 Mãe &amp; filha</div>
+    <div class="beach-item">🕶️ Sol e alegria</div>
+  </div>
+
+  <!-- frase rotativa -->
+  <div class="phrase-box show" id="phrase-box">
+    <div class="phrase-emoji" id="phrase-emoji">💕</div>
+    <div class="phrase-text" id="phrase-text">Carregando uma frase especial...</div>
+  </div>
+
+  <div class="date-line">
+    <div class="date-label">A aventura começa em</div>
+    <div class="date-value">09 de julho de 2026</div>
+  </div>
+
+  <!-- ondas decorativas -->
+  <svg class="waves-svg" viewBox="0 0 680 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,40 C120,10 240,70 360,40 C480,10 600,60 680,35 L680,80 L0,80 Z" fill="rgba(255,255,255,0.07)"/>
+    <path d="M0,55 C100,28 230,72 400,50 C530,32 620,65 680,50 L680,80 L0,80 Z" fill="rgba(248,164,200,0.1)"/>
+    <path d="M0,65 C160,45 300,78 460,60 C580,46 640,70 680,62 L680,80 L0,80 Z" fill="rgba(255,255,255,0.05)"/>
+  </svg>
+</div>
+
+<script>
+  const frases = [
+    { e: "💕", t: "Mãe e filha — o amor mais bonito do mundo!" },
+    { e: "🌊", t: "O mar vai testemunhar o início de muitas aventuras juntas." },
+    { e: "🌴", t: "A primeira viagem é a semente de uma vida de descobertas!" },
+    { e: "✨", t: "Você merece cada momento de alegria, Princesa Amora!" },
+    { e: "🏖️", t: "A areia branca de Maragogi espera os seus passos, mãe e filha." },
+    { e: "💪", t: "Mulheres fortes criam filhas ainda mais fortes. Viva essa dupla!" },
+    { e: "🌟", t: "Cada pôr do sol na praia será uma memória guardada no coração." },
+    { e: "🎉", t: "Hoje é um dia a menos — amanhã é um dia mais perto do paraíso!" },
+    { e: "🩷", t: "O melhor look para a praia? O sorriso de quem ama a filha demais." },
+    { e: "🌈", t: "Maragogi vai guardar vocês para sempre em suas águas cristalinas." },
+    { e: "🦋", t: "Voar junto é a coisa mais bonita que duas almas podem fazer." },
+    { e: "🎶", t: "A música da vida toca mais bonita quando está do lado de quem ama." },
+    { e: "☀️", t: "O sol brilha mais forte quando a alegria vem do coração!" },
+    { e: "🐚", t: "Cada conchinha que encontrarem na praia vai contar a história de vocês." },
+    { e: "💫", t: "Mãe que viaja com a filha planta raízes e asas ao mesmo tempo." },
+    { e: "🌺", t: "Que essa viagem seja tão linda quanto o amor que vocês compartilham!" },
+    { e: "🧡", t: "A Ana Clara é a maior aventura que a vida poderia te dar, mamãe!" },
+    { e: "🌊", t: "Nas ondas do mar, tudo que existe é presente — aproveite cada segundo!" },
+    { e: "💎", t: "Momentos assim valem mais do que qualquer tesouro do mundo." },
+    { e: "🌙", t: "À noite, o ceu de Maragogi vai ter estrelas — como os olhos de vocês!" },
+  ];
+
+  let idx = 0;
+  const box = document.getElementById('phrase-box');
+  const emoji = document.getElementById('phrase-emoji');
+  const text = document.getElementById('phrase-text');
+
+  function showFrase(i) {
+    box.style.opacity = '0';
+    box.style.transition = 'opacity 0.5s';
+    setTimeout(() => {
+      emoji.textContent = frases[i].e;
+      text.textContent  = frases[i].t;
+      box.style.opacity = '1';
+    }, 500);
+  }
+
+  showFrase(0);
+  setInterval(() => {
+    idx = (idx + 1) % frases.length;
+    showFrase(idx);
+  }, 4000);
+
+  // countdown
+  function calcCountdown() {
+    const now    = new Date();
+    const target = new Date('2026-07-09T00:00:00');
+    const diff   = target - now;
+    if (diff <= 0) {
+      ['dias','horas','mins','segs'].forEach((id, i) => {
+        document.getElementById(id).textContent = ['🎉','🌊','🌴','💕'][i];
+      });
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000)  / 60000);
+    const s = Math.floor((diff % 60000)    / 1000);
+    document.getElementById('dias').textContent  = String(d).padStart(2,'0');
+    document.getElementById('horas').textContent = String(h).padStart(2,'0');
+    document.getElementById('mins').textContent  = String(m).padStart(2,'0');
+    document.getElementById('segs').textContent  = String(s).padStart(2,'0');
+  }
+  calcCountdown();
+  setInterval(calcCountdown, 1000);
+
+  // corações flutuantes
+  const hc = document.getElementById('hearts-container');
+  const heartChars = ['💕','♥','💖','💗','💓','🌸','✨','⭐','💫','🌟'];
+  function spawnHeart() {
+    const el = document.createElement('span');
+    el.className = 'heart';
+    el.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+    const size = 20 + Math.random() * 22;
+    el.style.fontSize = size + 'px';
+    el.style.left = (Math.random() * 90) + '%';
+    el.style.bottom = '-40px';
+    const dur = 5 + Math.random() * 5;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = '0s';
+    hc.appendChild(el);
+    setTimeout(() => el.remove(), dur * 1000 + 200);
+  }
+  setInterval(spawnHeart, 800);
+  for (let i = 0; i < 5; i++) setTimeout(spawnHeart, i * 300);
+</script>
